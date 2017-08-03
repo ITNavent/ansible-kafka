@@ -11,12 +11,3 @@ galaxy_info:
         - trusty
   categories:
     - development
-
-dependencies:
-  - role: sansible.users_and_groups
-    users_and_groups:
-      groups:
-        - name: kafka
-      users:
-        - name: kafka
-          group: kafka

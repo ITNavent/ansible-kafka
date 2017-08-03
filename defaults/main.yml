@@ -33,7 +33,7 @@ kafka:
   tarball_location: /home/kafka/tmp
   upstart_conf: /etc/init/kafka.conf
   user: kafka
-  version_kafka: "0.10.1.1"
+  version_kafka: "0.11.0.0"
   version_scala: "2.11"
   wait_for_kafka_port: 60
   zookeeper_connection_timeout_ms: 1000000

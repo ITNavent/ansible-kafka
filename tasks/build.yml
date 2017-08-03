@@ -1,9 +1,18 @@
 ---
 
-- name: Install OpenJDK
+- name: Create user group
   become: yes
-  apt:
-    name: openjdk-7-jre-headless
+  group:
+    name: "{{ kafka.user }}"
+    state: present
+
+- name: Create user
+  become: yes
+  user:
+    name: "{{ kafka.user }}"
+    state: present
+    group: "{{ kafka.user }}"
+    createhome: yes
 
 - name: Ensure install folders
   become: yes
