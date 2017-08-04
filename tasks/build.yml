@@ -18,7 +18,7 @@
   become: yes
   apt:
     name: upstart
-    state: present
+    state: absent
 
 - name: Ensure install folders
   become: yes
@@ -71,18 +71,19 @@
     src: "/home/{{ kafka.user }}/kafka/config"
     state: link
 
-- name: Create Kafka service
-  become: yes
-  template:
-    dest: "{{ kafka.upstart_conf }}"
-    owner: root
-    mode: 0644
-    src: kafka.conf.j2
-  notify:
-    - restart kafka
+- name: Set start script
+  template: >
+    src=init.tpl
+    dest=/etc/init.d/kafka
+    owner=root
+    group=root
+    mode=0744
 
-- name: Ensure Kafka runs on boot
-  become: yes
-  service:
-    enabled: yes
-    name: kafka
+- name: Register service
+  service: name=kafka enabled=yes
+
+- name: Flush handlers to apply config changes
+  meta: flush_handlers
+
+- name: Ensure Kafka is started
+  service: name=kafka state=started
