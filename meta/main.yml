@@ -11,3 +11,5 @@ galaxy_info:
         - trusty
   categories:
     - development
+  dependencies:
+    - { role: 'git+https://tecnologianavent:Zaq12wsx@github.com/ITNavent/ansible-zookeeper.git,remove_java'}

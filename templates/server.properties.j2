@@ -7,8 +7,14 @@
 # If left off one is auto-assigned
 {% if kafka.aws_cluster_autodiscover.data is defined %}
 broker.id={{ kafka.aws_cluster_autodiscover.data.id }}
-{% else %}
+{% elif kafka.id is defined %}
 broker.id={{ kafka.id }}
+{% else %}
+    {% for i in range(0, ansible_play_hosts | length) %}
+        {% if ansible_play_hosts[i] == inventory_hostname %}
+broker.id={{ i }}
+        {% endif %}
+    {% endfor %}
 {% endif %}
 
 # Graceful shutdown. True to enable

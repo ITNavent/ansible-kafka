@@ -1,8 +1,15 @@
-#! /bin/sh
-# /etc/init.d/kafka: start the kafka daemon.
-
-# chkconfig: - 80 20
-# description: kafka
+#!/bin/bash
+#
+#chkconfig: - 20 80
+#
+### BEGIN INIT INFO
+# Provides:          kafka
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Description:       Controls Apache Kafka as a Service
+### END INIT INFO
 
 KAFKA_HOME={{ kafka.install_dir }}
 KAFKA_USER={{ kafka.user }}
@@ -23,7 +30,7 @@ KAFKA_PIDFILE=/var/run/kafka/kafka.pid
 
 
 # Source function library.
-. /etc/init.d/functions
+. /lib/lsb/init-functions
 
 start() {
   echo -n $"Starting $prog: "

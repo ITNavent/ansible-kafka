@@ -11,7 +11,6 @@ kafka:
   default_replication_factor: 1
   group: kafka
   heap_opts: "-Xmx{{ (ansible_memtotal_mb / 2) | int }}m -Xms{{ (ansible_memtotal_mb / 2) | int }}m"
-  id: 1
   install_dir: "/home/kafka/kafka"
   interface_bind: false
   interface_advertise: false

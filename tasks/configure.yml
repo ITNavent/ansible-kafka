@@ -149,7 +149,6 @@
     - restart kafka
 
 - name: Ensure Kafka is running
-  become: yes
   service:
     name: kafka
     state: started

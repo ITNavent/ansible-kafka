@@ -14,12 +14,6 @@
     group: "{{ kafka.user }}"
     createhome: yes
 
-- name: Install upstart
-  become: yes
-  apt:
-    name: upstart
-    state: absent
-
 - name: Ensure install folders
   become: yes
   become_user: "{{ kafka.user }}"
@@ -80,10 +74,16 @@
     mode=0744
 
 - name: Register service
-  service: name=kafka enabled=yes
+  systemd:
+    name: kafka
+    enabled: yes
+    daemon_reload: yes
 
 - name: Flush handlers to apply config changes
   meta: flush_handlers
 
 - name: Ensure Kafka is started
-  service: name=kafka state=started
+  service:
+    name: kafka
+    state: started
+    daemon_reload: yes
