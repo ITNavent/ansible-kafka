@@ -1,5 +1,9 @@
 ---
 
+- name: Install zookeeper
+  include_role:
+    name: zookeeper
+
 - name: Install kafka
   include: build.yml
   tags:
