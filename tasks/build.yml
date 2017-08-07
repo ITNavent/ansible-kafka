@@ -1,0 +1,89 @@
+---
+
+- name: Create user group
+  become: yes
+  group:
+    name: "{{ kafka.user }}"
+    state: present
+
+- name: Create user
+  become: yes
+  user:
+    name: "{{ kafka.user }}"
+    state: present
+    group: "{{ kafka.user }}"
+    createhome: yes
+
+- name: Ensure install folders
+  become: yes
+  become_user: "{{ kafka.user }}"
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - "/home/{{ kafka.user }}/bin"
+    - "/home/{{ kafka.user }}/tmp"
+    - "/home/{{ kafka.user }}/log"
+    - "/home/{{ kafka.user }}/data"
+
+- name: Remove lost+found in the datadir
+  become: yes
+  file:
+    path: "/home/{{ kafka.user }}/data/lost+found"
+    state: absent
+
+- name: Fetch kafka binary package
+  become: yes
+  become_user: "{{ kafka.user }}"
+  get_url:
+    dest: "/home/{{ kafka.user }}/tmp/kafka_{{ kafka.version_scala }}-{{ kafka.version_kafka }}.tgz"
+    url: "{{ kafka.apache_mirror }}/kafka/{{ kafka.version_kafka }}/kafka_{{ kafka.version_scala }}-{{ kafka.version_kafka }}.tgz"
+
+- name: Uncompress the kafka tar
+  become: yes
+  become_user: "{{ kafka.user }}"
+  unarchive:
+    copy: no
+    creates: "/home/{{ kafka.user }}/kafka_{{ kafka.version_scala }}-{{ kafka.version_kafka }}"
+    dest: "/home/{{ kafka.user }}"
+    src: "/home/{{ kafka.user }}/tmp/kafka_{{ kafka.version_scala }}-{{ kafka.version_kafka }}.tgz"
+
+- name: Link kafka to the right version
+  become: yes
+  become_user: "{{ kafka.user }}"
+  file:
+    path: "/home/{{ kafka.user }}/kafka"
+    src: "/home/{{ kafka.user }}/kafka_{{ kafka.version_scala }}-{{ kafka.version_kafka }}"
+    state: link
+
+- name: link config dir
+  become: yes
+  become_user: "{{ kafka.user }}"
+  file:
+    force: yes
+    path: "/home/{{ kafka.user }}/etc"
+    src: "/home/{{ kafka.user }}/kafka/config"
+    state: link
+
+- name: Set start script
+  template: >
+    src=init.tpl
+    dest=/etc/init.d/kafka
+    owner=root
+    group=root
+    mode=0744
+
+- name: Register service
+  systemd:
+    name: kafka
+    enabled: yes
+    daemon_reload: yes
+
+- name: Flush handlers to apply config changes
+  meta: flush_handlers
+
+- name: Ensure Kafka is started
+  service:
+    name: kafka
+    state: started
+    daemon_reload: yes
