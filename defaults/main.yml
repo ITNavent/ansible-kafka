@@ -14,7 +14,7 @@ kafka:
   install_dir: "/home/kafka/kafka"
   interface_bind: false
   interface_advertise: false
-  jmx_port: 9999
+  jmx_port: 9098
   log_cleanup_interval_mins: 1
   log_dir: /home/kafka/log
   log_flush_interval_messages: 10000

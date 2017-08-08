@@ -148,6 +148,14 @@
   notify:
     - restart kafka
 
+- name: Enable JMX
+  become: yes
+  become_user: "{{ kafka.user }}"
+  lineinfile:
+    path: "/home/{{ kafka.user }}/kafka/bin/kafka-run-class.sh"
+    line: "KAFKA_JMX_OPTS=\"-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname={{ openstack['public_v4'] }} -Dcom.sun.management.jmxremote.port={{ kafka.jmx_port }} -Dcom.sun.management.jmxremote.rmi.port={{ kafka.jmx_port }}\""
+    insertafter: "#!/bin/bash"
+
 - name: Ensure Kafka is running
   service:
     name: kafka
