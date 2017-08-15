@@ -11,11 +11,11 @@
 # Description:       Controls Apache Kafka as a Service
 ### END INIT INFO
 
-KAFKA_HOME={{ kafka.install_dir }}
-KAFKA_USER={{ kafka.user }}
+KAFKA_HOME={{ kafka_install_dir }}
+KAFKA_USER={{ kafka_user }}
 KAFKA_SCRIPT=$KAFKA_HOME/bin/kafka-server-start.sh
 KAFKA_CONFIG=$KAFKA_HOME/config/server.properties
-KAFKA_CONSOLE_LOG={{ kafka.log_dir }}/console.log
+KAFKA_CONSOLE_LOG={{ kafka_log_dir }}/console.log
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
 
