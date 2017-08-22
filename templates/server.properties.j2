@@ -18,7 +18,7 @@ broker.id={{ i }}
 {% endif %}
 
 # Graceful shutdown. True to enable
-controlled.shutdown.enable={{ kafka_controlled_shutdown_enable }}
+controlled.shutdown.enable={{ kafka_controlled_shutdown_enable | lower }}
 controlled.shutdown.max.retries={{ kafka_controlled_shutdown_max_retries }}
 controlled.shutdown.retry.backoff.ms={{ kafka_controlled_shutdown_retry_backoff_ms }}
 
@@ -29,6 +29,10 @@ controlled.shutdown.retry.backoff.ms={{ kafka_controlled_shutdown_retry_backoff_
 listeners=PLAINTEXT://{{ kafka_listen_address }}:{{ kafka_port }}
 {% else %}
 listeners=PLAINTEXT://0.0.0.0:{{ kafka_port }}
+{% endif %}
+
+{% if kafka_advertised_host_name is defined %}
+advertised.host.name={{ kafka_advertised_host_name }}
 {% endif %}
 
 {% if kafka_aws_cluster_autodiscover_data is defined %}
@@ -65,6 +69,7 @@ num.partitions={{ kafka_num_partitions }}
 
 # Set the default replication factor, set to this to the number of kafka brokers in your cluster
 default.replication.factor={{ kafka_default_replication_factor }}
+offsets.topic.replication.factor={{ kafka_offsets_topic_replication_factor }}
 
 ############################# Log Flush Policy #############################
 
