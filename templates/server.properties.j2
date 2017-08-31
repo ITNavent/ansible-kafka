@@ -124,3 +124,5 @@ zookeeper.connect={{ kafka_zookeeper_hosts | join(',') }}
 
 # Timeout in ms for connecting to zookeeper
 zookeeper.connection.timeout.ms={{ kafka_zookeeper_connection_timeout_ms }}
+
+offsets.topic.replication.factor ={{ ((ansible_play_hosts | length) / 2) + 1 }}
