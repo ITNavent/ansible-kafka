@@ -58,3 +58,14 @@ kafka_aws_cluster_autodiscover_id_tag_name: KafkaID
 # AWS CLI lookup filter
 kafka_aws_cluster_autodiscover_lookup_filter: "Name=tag:Environment,Values=dev Name=tag:Role,Values=kafka"
 kafka_aws_cluster_autodiscover_r53_zone_id: ~
+
+
+# Java
+home: /home/ubuntu
+navent_home: "{{home}}/navent"
+download_folder: "{{home}}"
+java_name: jdk1.8.b132
+java_archive: "{{download_folder}}/{{java_name}}.tar.gz"
+java_folder: "{{navent_home}}/jvm"
+java_alias: java-8-oracle
+java_version: 8u131
