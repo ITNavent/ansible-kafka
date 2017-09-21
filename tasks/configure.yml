@@ -153,7 +153,7 @@
   become_user: "{{ kafka_user }}"
   lineinfile:
     path: "/home/{{ kafka_user }}/kafka/bin/kafka-run-class.sh"
-    line: "KAFKA_JMX_OPTS=\"-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname={{ openstack['public_v4'] }} -Dcom.sun.management.jmxremote.port={{ kafka_jmx_port }} -Dcom.sun.management.jmxremote.rmi.port={{ kafka_jmx_port }}\""
+    line: "KAFKA_JMX_OPTS=\"-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname={{ kafka_jmx_host }} -Dcom.sun.management.jmxremote.port={{ kafka_jmx_port }} -Dcom.sun.management.jmxremote.rmi.port={{ kafka_jmx_port }}\""
     insertafter: "#!/bin/bash"
   when: kafka_enable_jmx
 

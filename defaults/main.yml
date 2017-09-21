@@ -14,6 +14,7 @@ kafka_heap_opts: "-Xmx{{ (ansible_memtotal_mb / 2) | int }}m -Xms{{ (ansible_mem
 kafka_install_dir: "/home/kafka/kafka"
 kafka_interface_bind: false
 kafka_interface_advertise: false
+kafka_jmx_host: "{{ kafka_advertised_host_name }}"
 kafka_jmx_port: 9098
 kafka_enable_jmx: false
 kafka_log_cleanup_interval_mins: 1
